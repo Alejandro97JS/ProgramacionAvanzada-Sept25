@@ -52,3 +52,15 @@ for product in inventory.values():
     category_names = ", ".join([cat["name"] for cat in product["categories"]]) or "None"
     tag_names = ", ".join([tag["name"] for tag in product["tags"]]) or "None"
     print(f"Product: {product['name']} (SKU: {product['sku']}) - Price: ${product['price']:.2f}, Stock: {product['current_stock']}, Categories: [{category_names}], Tags: [{tag_names}]")
+
+def check_stock_for_product(product, requested_units):
+    current_product = inventory.get(product)
+    # No hay suficientes productos
+    if current_product.get("current_stock") < requested_units:
+        return False, current_product.get("current_stock")
+    return True, current_product.get("current_stock")
+
+if __name__ == "__main__":
+    producto_sku = "SKU123"
+    response = check_stock_for_product(producto_sku, 15)
+    print(f"Respuesta para producto ${producto_sku}: {response}")
