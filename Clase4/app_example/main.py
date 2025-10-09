@@ -166,3 +166,20 @@ def get_product_category(product_id: int, db=Depends(get_db)):
         raise HTTPException(status_code=404, detail="Category not found")
     logger.info(f"Product {product_id} belongs to category {category.id}")
     return category
+
+@app.get("products/category/{category_id}/precio{unit_price_cents}")
+def get_category_price(category_id: int, unit_price_cents: int, db=Depends(get_db)) -> None | list:
+    logger.debug(f"GET /products/category/{category_id}/precio{unit_price_cents} called")
+    #product = crud.get_product(db, product_id)
+    category = crud.get_category(db, category_id)
+    if not category:
+        logger.warning(f"Category not found: {product.category_id}")
+        raise HTTPException(status_code=404, detail="Category not found")
+    products = category.products
+    products_sold = []
+    for product in products:
+        if product.unit_price_cents < unit_price_cents:
+            products_sold.append(product)
+      
+    logger.info(f"Products found {len(products_sold)} belongs to category {category.name} and price lower than {unit_price_cents}")
+    return products_sold 
