@@ -54,4 +54,9 @@ response = requests.get(f"{BASE_URL}/products/{product_id}/category")
 print("Obtener categoría del producto:", response.status_code, response.json())
 assert response.status_code == 200
 
+# 7. Filtrar productos por precios.
+response = requests.get(f"{BASE_URL}/products/?min_price=1000&max_price=1500")
+print("Filtrar productos por precio:", response.status_code, response.json())
+assert response.status_code == 200
+
 print("Todas las pruebas pasaron correctamente.")
