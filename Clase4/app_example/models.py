@@ -1,5 +1,5 @@
 from sqlalchemy.orm import DeclarativeBase, relationship
-from sqlalchemy import Integer, String, Text, Column, ForeignKey
+from sqlalchemy import Integer, String, Text, Column, ForeignKey, Boolean
 
 class DecBase(DeclarativeBase):
     pass
@@ -11,6 +11,7 @@ class Category(DecBase):
     name = Column(String(100), unique=True, nullable=False)
     description = Column(Text(), default="")
     products = relationship("Product", back_populates="category")
+    is_promoted = Column(Boolean, default=False)
 
 
 class Product(DecBase):
