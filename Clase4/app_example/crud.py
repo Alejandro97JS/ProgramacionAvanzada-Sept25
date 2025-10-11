@@ -56,9 +56,9 @@ def delete_product(db: Session, product_id: int) -> bool:
     return True
 
 def list_products_category_promoted(db: Session) -> list[models.Product]:
-    logger.debug(f"[crud] Buscando productos promovidos")
+    logger.debug(f"[crud] Buscando productos promovidos según su categoría")
     products = db.execute(select(models.Product).join(models.Category).filter(
-        models.Product.is_promoted == True)).scalars().all()
+        models.Category.is_promoted == True)).scalars().all()
     logger.info(f"[crud] Se encontraron {len(products)} productos promovidos")
     if not products:
         logger.warning(f"[crud] No hay productos con categoría promovida: {products}")

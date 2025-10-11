@@ -182,3 +182,12 @@ def get_category_products_under_price(category_id: int, unit_price_cents: int, d
       
     logger.info(f"Products found {len(products_sol)} belongs to category {category.name} and price lower than {unit_price_cents}")
     return products_sol
+
+@app.get("/products_promoted_categories")
+def get_promoted_categories(db=Depends(get_db)):
+    logger.debug(f"GET /products_promoted_categories called")
+    products_category_promoted = crud.list_products_category_promoted(db)
+    if not products_category_promoted:
+        raise HTTPException(status_code=404, detail="No promoted products found")
+    logger.info(f"Promoted products found: {len(products_category_promoted)}")
+    return products_category_promoted
