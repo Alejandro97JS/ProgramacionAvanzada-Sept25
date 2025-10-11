@@ -168,7 +168,7 @@ def get_product_category(product_id: int, db=Depends(get_db)):
     return category
 
 @app.get("/products/category/{category_id}/precio/{unit_price_cents}")
-def get_category_price(category_id: int, unit_price_cents: int, db=Depends(get_db)):
+def get_category_products_under_price(category_id: int, unit_price_cents: int, db=Depends(get_db)):
     logger.debug(f"GET /products/category/{category_id}/precio/{unit_price_cents} called")
     category = crud.get_category(db, category_id)
     if not category:
